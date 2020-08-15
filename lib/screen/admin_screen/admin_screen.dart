@@ -18,7 +18,7 @@ class AdminScreen extends StatelessWidget {
             _menuItem('デバイス設定',
                 () => Navigator.of(context).pushNamed('/admin/rcs380')),
             _headerItem(context, '一覧'),
-            _menuItem('社員一覧',
+            _menuItem('ユーザ一覧',
                 () => Navigator.of(context).pushNamed('/admin/user_list')),
             _headerItem(context, 'その他'),
             _aboutItem()

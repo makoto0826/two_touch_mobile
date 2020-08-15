@@ -112,7 +112,7 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
                   padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                   child: RaisedButton(
                     child: Text(
-                      "社員番号を手入力",
+                      "社員番号入力",
                       style: TextStyle(
                         fontSize: 30,
                       ),

@@ -18,7 +18,7 @@ class _UserListScreenView extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('社員一覧'),
+        title: Text('ユーザ一覧'),
       ),
       body: SafeArea(
         child: ListView(
