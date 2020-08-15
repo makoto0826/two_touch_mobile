@@ -18,7 +18,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: _isDevelopment,
-      title: 'Two Touch',
+      title: 'TwoTouch',
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -41,10 +41,10 @@ class App extends StatelessWidget {
           TimeCardSelectArguments arguments = ModalRoute.of(context).settings.arguments;
           return TimeCardSelectScreen(arguments: arguments);
         },
-        '/setting': (BuildContext context) => SettingScreen(),
-        '/setting/server': (BuildContext context) => ServerSettingScreen(),
-        '/setting/rcs380': (BuildContext context) => Rcs380SettingScreen(),
-        '/setting/user_list': (BuildContext context) => UserListScreen(),
+        '/admin': (BuildContext context) => AdminScreen(),
+        '/admin/server': (BuildContext context) => ServerSettingScreen(),
+        '/admin/rcs380': (BuildContext context) => Rcs380SettingScreen(),
+        '/admin/user_list': (BuildContext context) => UserListScreen(),
       },
     );
   }

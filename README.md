@@ -1,3 +1,3 @@
-# Two Touch Mobile
-Tow Touch Mobile Application
+# TwoTouch Mobile
+TowTouch Mobile Application
 

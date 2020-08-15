@@ -46,7 +46,7 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
       final user = await userRepository.findByCard(card);
 
       if (user != null) {
-        Navigator.of(context).pushNamed('/select',
+        Navigator.of(context).pushNamed('/time_card/select',
             arguments: TimeCardSelectArguments(user: user, card: card));
       }
     });
@@ -77,7 +77,7 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
                 padding: EdgeInsets.all(8),
                 child: IconButton(
                   icon: Icon(Icons.settings),
-                  onPressed: () => Navigator.of(context).pushNamed('/setting'),
+                  onPressed: () => Navigator.of(context).pushNamed('/admin'),
                 ),
               ),
             ),

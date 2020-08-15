@@ -19,33 +19,33 @@ class NumberButtons extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildNumber(context, text: "1"),
-            _buildNumber(context, text: "2"),
-            _buildNumber(context, text: "3"),
+            _buildNumber(context, text: '1'),
+            _buildNumber(context, text: '2'),
+            _buildNumber(context, text: '3'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildNumber(context, text: "4"),
-            _buildNumber(context, text: "5"),
-            _buildNumber(context, text: "6"),
+            _buildNumber(context, text: '4'),
+            _buildNumber(context, text: '5'),
+            _buildNumber(context, text: '6'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildNumber(context, text: "7"),
-            _buildNumber(context, text: "8"),
-            _buildNumber(context, text: "9"),
+            _buildNumber(context, text: '7'),
+            _buildNumber(context, text: '8'),
+            _buildNumber(context, text: '9'),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildItem(context, text: "×", onPressed: onDeletePressed),
-            _buildNumber(context, text: "0"),
-            _buildItem(context, text: "OK", onPressed: onOkPressed),
+            _buildItem(context, text: '×', onPressed: onDeletePressed),
+            _buildNumber(context, text: '0'),
+            _buildItem(context, text: 'OK', onPressed: onOkPressed),
           ],
         ),
       ],
@@ -59,7 +59,11 @@ class NumberButtons extends StatelessWidget {
   }) {
     return Padding(
       padding: EdgeInsets.all(8),
-      child: CircleButton(text: text, color: Colors.blue, onPressed: onPressed),
+      child: CircleButton(
+        text: text,
+        color: Colors.blue,
+        onPressed: onPressed,
+      ),
     );
   }
 

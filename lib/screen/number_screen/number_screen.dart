@@ -51,7 +51,7 @@ class NumberScreen extends HookWidget {
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         hintText: '社員番号を入力',
-                        contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        contentPadding: EdgeInsets.all(0),
                       ),
                     ),
                     Padding(
@@ -81,7 +81,7 @@ class NumberScreen extends HookWidget {
               _showError(context);
             } else {
               Navigator.of(context)
-                  .pushNamed('/select', arguments: TimeCardSelectArguments(user: user));
+                  .pushNamed('/time_card/select', arguments: TimeCardSelectArguments(user: user));
             }
           },
         );

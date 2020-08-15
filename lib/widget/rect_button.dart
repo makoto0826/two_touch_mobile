@@ -23,11 +23,11 @@ class RectButton extends StatelessWidget {
       child: RaisedButton(
         color: Colors.white,
         highlightElevation: 16.0,
-        highlightColor: Colors.blue,
+        highlightColor: color,
         padding: EdgeInsets.all(16),
         shape: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(4.0)),
-          borderSide: this.onPressed != null ? BorderSide(color: Colors.blue) : BorderSide(),
+          borderSide: this.onPressed != null ? BorderSide(color: color) : BorderSide(),
         ),
         child: Text(
           text,
