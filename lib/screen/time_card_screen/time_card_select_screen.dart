@@ -63,7 +63,7 @@ class TimeCardSelectScreen extends HookWidget {
                                       type: TimeRecordType.In)
                                   .then((_) => Navigator.of(context)
                                       .pushNamedAndRemoveUntil(
-                                          '/', (r) => false));
+                                          '/time_card', (r) => false));
                             },
                           ),
                           CircleButton(
@@ -79,7 +79,7 @@ class TimeCardSelectScreen extends HookWidget {
                                       type: TimeRecordType.Out)
                                   .then((_) => Navigator.of(context)
                                       .pushNamedAndRemoveUntil(
-                                          '/', (r) => false));
+                                          '/time_card', (r) => false));
                             },
                           ),
                         ],

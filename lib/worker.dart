@@ -76,6 +76,7 @@ void appendTimeRecordWorkerQueue(String id) {
 void _callbackDispatcher() {
   Workmanager.executeTask(
     (taskName, inputData) async {
+      _logger.i("callbackDispatcher");
       try {
         await initializeHive();
 

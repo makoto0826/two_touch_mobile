@@ -22,26 +22,22 @@ class Database {
   Future<Box<Information>> getInformationBox() async {
     Box box =
         await Hive.openBox<Information>(_InformationName, encryptionKey: _key);
-
     return box;
   }
 
   Future<Box<Setting>> getSettingBox() async {
     Box box = await Hive.openBox<Setting>(_SettingName, encryptionKey: _key);
-
     return box;
   }
 
   Future<Box<User>> getUserBox() async {
     Box box = await Hive.openBox<User>(_UserName, encryptionKey: _key);
-
     return box;
   }
 
   Future<Box<TimeRecord>> getTimeRecordBox() async {
     Box box =
         await Hive.openBox<TimeRecord>(_TimeRecordName, encryptionKey: _key);
-
     return box;
   }
 }

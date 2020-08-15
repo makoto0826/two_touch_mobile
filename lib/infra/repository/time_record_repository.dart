@@ -12,24 +12,30 @@ class TimeRecordRepository {
 
   Future<TimeRecord> findById(String id) async {
     final box = await _db.getTimeRecordBox();
-    return box.get(id);
+    final timeCard =  box.get(id);
+    await box.close();
+
+    return timeCard;
   }
 
   Future<List<TimeRecord>> findByStatus(TimeRecordStatus status) async {
     final box = await _db.getTimeRecordBox();
     final records =
         box.values.where((record) => record.status == status).toList();
+    
+    await box.close();
 
     return records;
   }
 
   Future<List<TimeRecord>> findByLessThanUpdatedAt(DateTime updatedAt) async {
     final box = await _db.getTimeRecordBox();
-
     final records = box.values.where((record) {
       final epoch = record.updatedAt.toYmd().microsecondsSinceEpoch;
       return updatedAt.microsecondsSinceEpoch > epoch;
     }).toList();
+
+    await box.close();
 
     return records;
   }
@@ -37,15 +43,18 @@ class TimeRecordRepository {
   Future<void> delete(String localTimeRecordId) async {
     final box = await _db.getTimeRecordBox();
     await box.delete(localTimeRecordId);
+    await box.close();
   }
 
   Future<void> deleteAll(List<String> localTimeRecordIds) async {
     final box = await _db.getTimeRecordBox();
     box.deleteAll(localTimeRecordIds);
+    await box.close();
   }
 
   Future<void> save(TimeRecord record) async {
     Box<TimeRecord> box = await _db.getTimeRecordBox();
     await box.put(record.localTimeRecordId, record);
+    await box.close();
   }
 }
