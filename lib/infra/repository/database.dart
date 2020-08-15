@@ -19,25 +19,26 @@ class Database {
     }
   }
 
-  Future<Box<Information>> getInformationBox() async {
-    Box box =
-        await Hive.openBox<Information>(_InformationName, encryptionKey: _key);
+  Future<LazyBox<Information>> getInformationBox() async {
+    final box = await Hive.openLazyBox<Information>(_InformationName,
+        encryptionKey: _key);
     return box;
   }
 
-  Future<Box<Setting>> getSettingBox() async {
-    Box box = await Hive.openBox<Setting>(_SettingName, encryptionKey: _key);
+  Future<LazyBox<Setting>> getSettingBox() async {
+    final box =
+        await Hive.openLazyBox<Setting>(_SettingName, encryptionKey: _key);
     return box;
   }
 
-  Future<Box<User>> getUserBox() async {
-    Box box = await Hive.openBox<User>(_UserName, encryptionKey: _key);
+  Future<LazyBox<User>> getUserBox() async {
+    final box = Hive.openLazyBox<User>(_UserName, encryptionKey: _key);
     return box;
   }
 
-  Future<Box<TimeRecord>> getTimeRecordBox() async {
-    Box box =
-        await Hive.openBox<TimeRecord>(_TimeRecordName, encryptionKey: _key);
+  Future<LazyBox<TimeRecord>> getTimeRecordBox() async {
+    final box = await Hive.openLazyBox<TimeRecord>(_TimeRecordName,
+        encryptionKey: _key);
     return box;
   }
 }

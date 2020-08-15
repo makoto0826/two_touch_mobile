@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:two_touch_mobile/model/model.dart';
 import 'database.dart';
 
@@ -13,14 +11,11 @@ class InformationRepository {
   Future<Information> get() async {
     final box = await _db.getInformationBox();
     final information = box.get(0);
-    await box.close();
-
     return information;
   }
 
   Future<void> save(Information information) async {
     final box = await _db.getInformationBox();
     await box.put(0, information);
-    await box.close();
   }
 }

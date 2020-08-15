@@ -10,28 +10,30 @@ class UserRepository {
 
   Future<List<User>> findAll() async {
     final box = await _db.getUserBox();
-    final users = box.values.toList();
-    await box.close();
+    List<User> users = [];
+
+    for (final key in box.keys) {
+      User user = await box.get(key);
+
+      if (user != null) {
+        users.add(user);
+      }
+    }
 
     return users;
   }
 
   Future<User> findByUserId(String userId) async {
     final box = await _db.getUserBox();
-    final user = box.values
-        .firstWhere((user) => user.userId == userId, orElse: () => null);
-
-    await box.close();
+    final user = box.get(userId);
 
     return user;
   }
 
   Future<User> findByCard(String card) async {
-    final box = await _db.getUserBox();
-    final user = box.values
-        .firstWhere((user) => user.cards.contains(card), orElse: () => null);
-
-    await box.close();
+    final users = await findAll();
+    final user = users.firstWhere((user) => user.cards.contains(card),
+        orElse: () => null);
 
     return user;
   }
@@ -39,7 +41,6 @@ class UserRepository {
   Future<void> deleteAll() async {
     final box = await _db.getUserBox();
     await box.deleteFromDisk();
-    await box.close();
   }
 
   Future<void> saveAll(List<User> users) async {
@@ -49,6 +50,5 @@ class UserRepository {
         Map.fromIterable(users, key: (e) => e.userId, value: (e) => e);
 
     box.putAll(entries);
-    await box.close();
   }
 }

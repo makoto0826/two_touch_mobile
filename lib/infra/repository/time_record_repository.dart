@@ -1,4 +1,3 @@
-import 'package:hive/hive.dart';
 import 'package:two_touch_mobile/extensions/date_time_extensions.dart';
 import 'package:two_touch_mobile/model/model.dart';
 import 'database.dart';
@@ -10,51 +9,59 @@ class TimeRecordRepository {
     _db = db;
   }
 
+  Future<List<TimeRecord>> findAll() async {
+    final box = await _db.getTimeRecordBox();
+    List<TimeRecord> timeRecords = [];
+
+    for (final key in box.keys) {
+      TimeRecord timeRecord = await box.get(key);
+
+      if (timeRecord != null) {
+        timeRecords.add(timeRecord);
+      }
+    }
+
+    return timeRecords;
+  }
+
   Future<TimeRecord> findById(String id) async {
     final box = await _db.getTimeRecordBox();
-    final timeCard =  box.get(id);
-    await box.close();
+    final timeRecord = box.get(id);
 
-    return timeCard;
+    return timeRecord;
   }
 
   Future<List<TimeRecord>> findByStatus(TimeRecordStatus status) async {
-    final box = await _db.getTimeRecordBox();
-    final records =
-        box.values.where((record) => record.status == status).toList();
-    
-    await box.close();
+    final allTimeRecords = await findAll();
+    final timeRecords =
+        allTimeRecords.where((record) => record.status == status).toList();
 
-    return records;
+    return timeRecords;
   }
 
   Future<List<TimeRecord>> findByLessThanUpdatedAt(DateTime updatedAt) async {
-    final box = await _db.getTimeRecordBox();
-    final records = box.values.where((record) {
+    final allTimeRecords = await findAll();
+
+    final timeRecords = allTimeRecords.where((record) {
       final epoch = record.updatedAt.toYmd().microsecondsSinceEpoch;
       return updatedAt.microsecondsSinceEpoch > epoch;
     }).toList();
 
-    await box.close();
-
-    return records;
+    return timeRecords;
   }
 
   Future<void> delete(String localTimeRecordId) async {
     final box = await _db.getTimeRecordBox();
     await box.delete(localTimeRecordId);
-    await box.close();
   }
 
   Future<void> deleteAll(List<String> localTimeRecordIds) async {
     final box = await _db.getTimeRecordBox();
     box.deleteAll(localTimeRecordIds);
-    await box.close();
   }
 
   Future<void> save(TimeRecord record) async {
-    Box<TimeRecord> box = await _db.getTimeRecordBox();
+    final box = await _db.getTimeRecordBox();
     await box.put(record.localTimeRecordId, record);
-    await box.close();
   }
 }
