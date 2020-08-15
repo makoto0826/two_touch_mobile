@@ -36,6 +36,7 @@ Future<void> initializeWorker(bool isDevelopment) async {
     frequency: Duration(minutes: 120),
     constraints: Constraints(
       networkType: NetworkType.connected,
+      requiresDeviceIdle: true,
     ),
   );
 
@@ -45,6 +46,7 @@ Future<void> initializeWorker(bool isDevelopment) async {
     frequency: Duration(days: 1),
     constraints: Constraints(
       networkType: NetworkType.connected,
+      requiresDeviceIdle: true,
     ),
   );
 
@@ -77,6 +79,7 @@ void _callbackDispatcher() {
   Workmanager.executeTask(
     (taskName, inputData) async {
       _logger.i("callbackDispatcher");
+
       try {
         await initializeHive();
 
