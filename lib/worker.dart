@@ -24,7 +24,7 @@ Future<void> initializeWorker(bool isDevelopment) async {
   Workmanager.registerPeriodicTask(
     'information-periodic',
     InformationPeriodicTaskName,
-    frequency: Duration(minutes: 120),
+    frequency: Duration(minutes: 30),
     constraints: Constraints(
       networkType: NetworkType.connected,
     ),
@@ -33,7 +33,7 @@ Future<void> initializeWorker(bool isDevelopment) async {
   Workmanager.registerPeriodicTask(
     "add-time-record-periodic",
     AddTimeRecordPeriodicTaskName,
-    frequency: Duration(minutes: 120),
+    frequency: Duration(minutes: 60),
     constraints: Constraints(
       networkType: NetworkType.connected,
       requiresDeviceIdle: true,
