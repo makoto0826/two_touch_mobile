@@ -21,12 +21,15 @@ class TimeRecordRepository {
       }
     }
 
+    await box.close();
+
     return timeRecords;
   }
 
   Future<TimeRecord> findById(String id) async {
     final box = await _db.getTimeRecordBox();
-    final timeRecord = box.get(id);
+    final timeRecord = await box.get(id);
+    await box.close();
 
     return timeRecord;
   }
@@ -53,15 +56,18 @@ class TimeRecordRepository {
   Future<void> delete(String localTimeRecordId) async {
     final box = await _db.getTimeRecordBox();
     await box.delete(localTimeRecordId);
+    await box.close();
   }
 
   Future<void> deleteAll(List<String> localTimeRecordIds) async {
     final box = await _db.getTimeRecordBox();
-    box.deleteAll(localTimeRecordIds);
+    await box.deleteAll(localTimeRecordIds);
+    await box.close();
   }
 
   Future<void> save(TimeRecord record) async {
     final box = await _db.getTimeRecordBox();
     await box.put(record.localTimeRecordId, record);
+    await box.close();
   }
 }

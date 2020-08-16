@@ -20,12 +20,15 @@ class UserRepository {
       }
     }
 
+    await box.close();
+
     return users;
   }
 
   Future<User> findByUserId(String userId) async {
     final box = await _db.getUserBox();
-    final user = box.get(userId);
+    final user = await box.get(userId);
+    await box.close();
 
     return user;
   }
@@ -41,6 +44,7 @@ class UserRepository {
   Future<void> deleteAll() async {
     final box = await _db.getUserBox();
     await box.deleteFromDisk();
+    await box.close();
   }
 
   Future<void> saveAll(List<User> users) async {
@@ -49,6 +53,6 @@ class UserRepository {
     Map<dynamic, User> entries =
         Map.fromIterable(users, key: (e) => e.userId, value: (e) => e);
 
-    box.putAll(entries);
+    await box.putAll(entries);
   }
 }

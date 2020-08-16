@@ -32,7 +32,7 @@ class Database {
   }
 
   Future<LazyBox<User>> getUserBox() async {
-    final box = Hive.openLazyBox<User>(_UserName, encryptionKey: _key);
+    final box = await Hive.openLazyBox<User>(_UserName, encryptionKey: _key);
     return box;
   }
 
