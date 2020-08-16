@@ -80,8 +80,8 @@ class NumberScreen extends HookWidget {
             if (user == null) {
               _showError(context);
             } else {
-              Navigator.of(context)
-                  .pushNamed('/time_card/select', arguments: TimeCardSelectArguments(user: user));
+              Navigator.of(context).pushNamed('/time_card/select',
+                  arguments: TimeCardSelectArguments(user: user));
             }
           },
         );
@@ -92,7 +92,8 @@ class NumberScreen extends HookWidget {
 
   void _showError(BuildContext context) {
     Flushbar(
-      message: '社員が見つかりません',
+      icon: Icon(Icons.error_outline, color: Colors.white),
+      message: '社員番号が登録さていません',
       backgroundColor: Colors.red,
       duration: Duration(seconds: 2),
     )..show(context);

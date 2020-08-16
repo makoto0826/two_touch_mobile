@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -45,7 +46,9 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
     rcs380.card.listen((card) async {
       final user = await userRepository.findByCard(card);
 
-      if (user != null) {
+      if (user == null) {
+        _showError(context);
+      } else {
         Navigator.of(context).pushNamed('/time_card/select',
             arguments: TimeCardSelectArguments(user: user, card: card));
       }
@@ -134,5 +137,14 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
         ),
       ),
     );
+  }
+
+  void _showError(BuildContext context) {
+    Flushbar(
+      icon: Icon(Icons.error_outline, color: Colors.white),
+      message: '社員証が登録されていません',
+      backgroundColor: Colors.red,
+      duration: Duration(seconds: 2),
+    )..show(context);
   }
 }

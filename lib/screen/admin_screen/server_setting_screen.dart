@@ -111,6 +111,7 @@ class _ServerSettingScreenView extends HookWidget {
 
   void _showOk(BuildContext context, SaveResult result) {
     Flushbar(
+      icon: Icon(Icons.info, color: Colors.white),
       message: result.text,
       duration: Duration(seconds: 2),
     )..show(context);
@@ -118,6 +119,7 @@ class _ServerSettingScreenView extends HookWidget {
 
   void _showError(BuildContext context, SaveResult result) {
     Flushbar(
+      icon: Icon(Icons.error_outline, color: Colors.white),
       message: result.text,
       backgroundColor: Colors.red,
       duration: Duration(seconds: 2),

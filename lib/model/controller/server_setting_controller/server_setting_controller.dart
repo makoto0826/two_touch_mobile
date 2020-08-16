@@ -14,7 +14,6 @@ export 'server_setting_state.dart';
 
 final StateNotifierProvider<ServerSettingController>
     serverSettingControllerProvider = StateNotifierProvider((ref) {
-
   final repository = ref.read(settingRepositoryProvider);
   return ServerSettingController(repository: repository, ref: ref);
 });

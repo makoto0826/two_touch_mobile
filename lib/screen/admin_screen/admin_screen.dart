@@ -17,10 +17,12 @@ class AdminScreen extends StatelessWidget {
                 () => Navigator.of(context).pushNamed('/admin/server')),
             _menuItem('デバイス設定',
                 () => Navigator.of(context).pushNamed('/admin/rcs380')),
-            _headerItem(context, '一覧'),
+            _divider(),
+            _headerItem(context, '管理'),
             _menuItem('ユーザ一覧',
                 () => Navigator.of(context).pushNamed('/admin/user_list')),
-            _headerItem(context, 'その他'),
+            _divider(),
+            _headerItem(context, '情報'),
             _aboutItem()
           ],
         ),
@@ -41,32 +43,28 @@ class AdminScreen extends StatelessWidget {
     );
   }
 
-  Widget _menuItem(String title, VoidCallback onTap) {
+  Widget _divider() {
     return Container(
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: _borderColor),
         ),
-      ),
-      child: ListTile(
-        title: Text(title),
-        onTap: onTap,
       ),
     );
   }
 
+  Widget _menuItem(String title, VoidCallback onTap) {
+    return ListTile(
+      title: Text(title),
+      onTap: onTap,
+    );
+  }
+
   Widget _aboutItem() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: _borderColor),
-        ),
-      ),
-      child: AboutListTile(
-        applicationName: 'TwoTouch',
-        applicationVersion: '1.0.0',
-        applicationLegalese: '2020 makoto0826',
-      ),
+    return AboutListTile(
+      applicationName: 'TwoTouch',
+      applicationVersion: '1.0.0',
+      applicationLegalese: '2020 makoto0826',
     );
   }
 }
