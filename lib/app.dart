@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:two_touch_mobile/screen/screen.dart';
-import 'package:two_touch_mobile/screen/time_card_screen/time_card_select_arguments.dart';
 
 final RouteObserver<PageRoute> routeObserver = new RouteObserver<PageRoute>();
 

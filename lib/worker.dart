@@ -36,7 +36,6 @@ Future<void> initializeWorker(bool isDevelopment) async {
     frequency: Duration(minutes: 60),
     constraints: Constraints(
       networkType: NetworkType.connected,
-      requiresDeviceIdle: true,
     ),
   );
 
@@ -46,7 +45,6 @@ Future<void> initializeWorker(bool isDevelopment) async {
     frequency: Duration(days: 1),
     constraints: Constraints(
       networkType: NetworkType.connected,
-      requiresDeviceIdle: true,
     ),
   );
 
