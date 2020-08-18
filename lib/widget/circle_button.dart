@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 class CircleButton extends StatelessWidget {
   final String text;
   final Color color;
-  final double width;
-  final double height;
+  final double size;
+  final double fontSize;
   final VoidCallback onPressed;
 
   CircleButton({
     this.text,
     this.color,
-    this.width = 80,
-    this.height = 80,
+    this.size = 80,
+    this.fontSize = 25,
     this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
-      height: height,
+      width: size,
+      height: size,
       child: RaisedButton(
         color: Colors.white,
         highlightElevation: 16.0,
@@ -33,9 +33,9 @@ class CircleButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: fontSize),
         ),
-        onPressed: this.onPressed,
+        onPressed: onPressed,
       ),
     );
   }

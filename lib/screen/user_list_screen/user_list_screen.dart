@@ -20,12 +20,10 @@ class _UserListScreenView extends HookWidget {
       appBar: AppBar(
         title: Text('ユーザ一覧'),
       ),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            for (final user in state.users) _userItem(user.userName),
-          ],
-        ),
+      body: ListView(
+        children: [
+          for (final user in state.users) _userItem(user.userName),
+        ],
       ),
     );
   }

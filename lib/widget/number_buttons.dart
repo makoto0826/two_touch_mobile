@@ -4,13 +4,23 @@ import 'circle_button.dart';
 typedef void NumberPressed(String number);
 
 class NumberButtons extends StatelessWidget {
+  final double buttonSize;
+
+  final double padding;
+
   final NumberPressed onNumberPressed;
 
   final VoidCallback onDeletePressed;
 
   final VoidCallback onOkPressed;
 
-  NumberButtons({this.onNumberPressed, this.onDeletePressed, this.onOkPressed});
+  NumberButtons({
+    this.buttonSize,
+    this.padding,
+    this.onNumberPressed,
+    this.onDeletePressed,
+    this.onOkPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +68,11 @@ class NumberButtons extends StatelessWidget {
     VoidCallback onPressed,
   }) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(padding),
       child: CircleButton(
         text: text,
+        size: buttonSize,
+        fontSize: buttonSize * 0.3,
         color: Colors.blue,
         onPressed: onPressed,
       ),
@@ -72,8 +84,10 @@ class NumberButtons extends StatelessWidget {
     String text,
   }) {
     return Padding(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(padding),
       child: CircleButton(
+        size: buttonSize,
+        fontSize: buttonSize * 0.3,
         text: text,
         color: Colors.blue,
         onPressed: () => onNumberPressed(text),

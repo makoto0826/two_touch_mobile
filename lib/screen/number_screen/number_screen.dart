@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -12,8 +14,10 @@ class NumberScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final resize = Resize.of(context);
+
     final numberState = useProvider(numberProvider.state);
-    final width = MediaQuery.of(context).size.width * 0.5;
+    final width = min(360.0, MediaQuery.of(context).size.width * 0.8);
 
     if (controller.text != numberState.text) {
       controller.text = numberState.text ?? '';
@@ -46,7 +50,7 @@ class NumberScreen extends HookWidget {
                       readOnly: true,
                       obscureText: true,
                       style: TextStyle(
-                        fontSize: 40,
+                        fontSize: resize.textSize2,
                       ),
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
@@ -56,7 +60,7 @@ class NumberScreen extends HookWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 24, 0, 0),
-                      child: _buildNumberButtons(context, numberState),
+                      child: _buildNumberButtons(context, resize, numberState),
                     ),
                   ],
                 ),
@@ -68,11 +72,17 @@ class NumberScreen extends HookWidget {
     );
   }
 
-  Widget _buildNumberButtons(BuildContext context, NumberState numberState) {
+  Widget _buildNumberButtons(
+    BuildContext context,
+    ResizeData resize,
+    NumberState numberState,
+  ) {
     final userRepository = useProvider(userRepositoryProvider);
     final numberController = useProvider(numberProvider);
 
     return NumberButtons(
+      buttonSize: resize.buttonSize1,
+      padding: resize.padding1,
       onNumberPressed: numberController.add,
       onOkPressed: () {
         userRepository.findByUserId(numberState.text).then(

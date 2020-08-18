@@ -12,11 +12,6 @@ Future<void> main() async {
   await initializeHive();
   await initializeWorker(isDevelopment);
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeRight,
-    DeviceOrientation.landscapeLeft,
-  ]);
-
   runApp(
     ProviderScope(
       child: App(isDevelopment: isDevelopment),

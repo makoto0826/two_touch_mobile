@@ -3,6 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Clock extends StatefulWidget {
+  final timeFontSize;
+
+  final dateFontSize;
+
+  Clock({
+    this.timeFontSize = 100.0,
+    this.dateFontSize = 25.0,
+  });
+
   @override
   State<StatefulWidget> createState() => ClockState();
 }
@@ -23,7 +32,7 @@ class ClockState extends State<Clock> {
   void _setTime() {
     var now = DateTime.now();
     var timeFormatter = DateFormat('HH:mm:ss');
-    var dateFormatter = DateFormat('yyyy年MM月dd日(E)',"ja_JP");
+    var dateFormatter = DateFormat('yyyy年MM月dd日(E)', "ja_JP");
     var formattedTime = timeFormatter.format(now);
     var formattedDate = dateFormatter.format(now);
 
@@ -35,21 +44,18 @@ class ClockState extends State<Clock> {
 
   @override
   Widget build(BuildContext context) {
-    var timeFontSize = 100.0;
-    var dateFontSize = 30.0;
-
     return Column(
       children: [
         Text(
           _time,
           style: TextStyle(
-            fontSize: timeFontSize,
+            fontSize: widget.timeFontSize,
           ),
         ),
         Text(
           _date,
           style: TextStyle(
-            fontSize: dateFontSize,
+            fontSize: widget.dateFontSize,
           ),
         ),
       ],

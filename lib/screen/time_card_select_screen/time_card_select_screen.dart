@@ -18,6 +18,7 @@ class TimeCardSelectScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final controller = useProvider(timeCardSelectProvider);
+    final resize = Resize.of(context);
 
     return Scaffold(
       body: SafeArea(
@@ -43,7 +44,10 @@ class TimeCardSelectScreen extends HookWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 16),
-                      child: Clock(),
+                      child: Clock(
+                        timeFontSize: resize.textBigSize2,
+                        dateFontSize: resize.textSize2,
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
@@ -52,8 +56,8 @@ class TimeCardSelectScreen extends HookWidget {
                         children: [
                           CircleButton(
                             text: "出勤",
-                            width: 120,
-                            height: 120,
+                            size: resize.buttonSize2,
+                            fontSize: resize.textSize1,
                             color: Colors.blue,
                             onPressed: () {
                               controller
@@ -68,8 +72,8 @@ class TimeCardSelectScreen extends HookWidget {
                           ),
                           CircleButton(
                             text: "退勤",
-                            width: 120,
-                            height: 120,
+                            size: resize.buttonSize2,
+                            fontSize: resize.textSize1,
                             color: Colors.blue,
                             onPressed: () {
                               controller

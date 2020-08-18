@@ -69,6 +69,8 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
 
   @override
   Widget build(BuildContext context) {
+    final resize = Resize.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -88,7 +90,10 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Clock(),
+                Clock(
+                  timeFontSize: resize.textBigSize2,
+                  dateFontSize: resize.textSize2,
+                ),
                 StreamBuilder(
                   stream: rcs380.status,
                   builder: (
@@ -105,7 +110,7 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
                       child: Text(
                         '社員証をリーダーにタッチしてください',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: resize.textSize2,
                         ),
                       ),
                     );
@@ -117,7 +122,7 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
                     child: Text(
                       "社員番号入力",
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: resize.textSize1,
                       ),
                     ),
                     color: Colors.white,
