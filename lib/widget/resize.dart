@@ -7,7 +7,7 @@ class Resize {
         ? query.size.width
         : query.size.height;
 
-    final isTablet = size > 640;
+    final isTablet = size > 768;
 
     return ResizeData(
         textSize1: isTablet ? 24 : 16,
