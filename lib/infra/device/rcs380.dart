@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'rcs380_status.dart';
 
-const METHOD_CHANNEL = 'com.makoto0826.two_touch_mobile/rcs380';
-const EVENT_CHANNEL = 'com.makoto0826.two_touch_mobile/rcs380-stream';
+export 'rcs380_status.dart';
+
+const _METHOD_CHANNEL = 'com.makoto0826.two_touch_mobile/rcs380';
+const _EVENT_CHANNEL = 'com.makoto0826.two_touch_mobile/rcs380-stream';
 
 class Rcs380 {
   static Rcs380 _instance;
@@ -16,32 +18,13 @@ class Rcs380 {
     return _instance;
   }
 
-  Stream<String> get card => _cardController.stream;
+  Stream<String> get tag => _tagController.stream;
 
-  Stream<Rcs380Status> get status => _statusController.stream;
+  bool _listening = false;
 
-  bool _cardListening = false;
+  final _methodChannel = const MethodChannel(_METHOD_CHANNEL);
 
-  final _methodChannel = const MethodChannel(METHOD_CHANNEL);
-
-  final _eventChannel = const EventChannel(EVENT_CHANNEL);
-
-  // ignore: close_sinks
-  final _cardController = StreamController<String>.broadcast();
-
-  final _statusController = StreamController<Rcs380Status>.broadcast();
-
-  Rcs380._() {
-    _eventChannel.receiveBroadcastStream().listen((dynamic event) {
-      if (!_cardListening) {
-        return;
-      }
-
-      _cardController.sink.add(event.toString());
-    }, onError: (dynamic error) {
-      print('Received error: ${error.message}');
-    }, cancelOnError: true);
-  }
+  final _eventChannel = const EventChannel(_EVENT_CHANNEL);
 
   final _statusList = [
     Rcs380Status.NotFoundAndPermission,
@@ -50,14 +33,29 @@ class Rcs380 {
     Rcs380Status.FoundAndPermission,
   ];
 
-  Future<void> getStatus() async {
+  // ignore: close_sinks
+  final _tagController = StreamController<String>.broadcast();
+
+  Rcs380._() {
+    _eventChannel.receiveBroadcastStream().listen((dynamic event) {
+      if (!_listening) {
+        return;
+      }
+
+      _tagController.sink.add(event.toString());
+    }, onError: (dynamic error) {
+      print('Received error: ${error.message}');
+    }, cancelOnError: true);
+  }
+
+  Future<Rcs380Status> getStatus() async {
     final hasDevice = await _checkDevice();
     final permission = await _hasPermission();
 
     int index = hasDevice ? 2 : 0;
     index += permission ? 1 : 0;
 
-    _statusController.add(_statusList[index]);
+    return _statusList[index];
   }
 
   Future<bool> requestPermission() =>
@@ -65,14 +63,14 @@ class Rcs380 {
 
   Future<bool> connect() async {
     final result = await _methodChannel.invokeMethod("connect");
-    _cardListening = true;
+    _listening = true;
 
     return result;
   }
 
   Future<bool> disconnect() async {
     final result = await _methodChannel.invokeMethod("disconnect");
-    _cardListening = false;
+    _listening = false;
 
     return result;
   }

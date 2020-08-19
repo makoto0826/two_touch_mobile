@@ -16,31 +16,6 @@ class Rcs380SettingController extends StateNotifier<Rcs380SettingState> {
 
   Rcs380SettingController({Rcs380 rcs380}) : super(Rcs380SettingState()) {
     _rcs380 = rcs380;
-
-    _rcs380.status.listen((status) {
-      String text = '';
-      bool isEnabled = false;
-
-      switch (status) {
-        case Rcs380Status.NotFound:
-        case Rcs380Status.NotFoundAndPermission:
-          text = 'RC-S380が見つかりません';
-          break;
-        case Rcs380Status.Found:
-          text = 'RC-S380を有効にしてください';
-          isEnabled = true;
-          break;
-        case Rcs380Status.FoundAndPermission:
-          text = 'RC-S380は有効です';
-          break;
-      }
-
-      state = state.copyWith(
-        status: status,
-        isEnabled: isEnabled,
-        text: text,
-      );
-    });
   }
 
   Future<void> requestPermission() async {
@@ -48,5 +23,30 @@ class Rcs380SettingController extends StateNotifier<Rcs380SettingState> {
     await getStatus();
   }
 
-  Future<void> getStatus() => _rcs380.getStatus();
+  Future<void> getStatus() async {
+    final status = await _rcs380.getStatus();
+
+    String text = '';
+    bool isEnabled = false;
+
+    switch (status) {
+      case Rcs380Status.NotFound:
+      case Rcs380Status.NotFoundAndPermission:
+        text = 'RC-S380が見つかりません';
+        break;
+      case Rcs380Status.Found:
+        text = 'RC-S380を有効にしてください';
+        isEnabled = true;
+        break;
+      case Rcs380Status.FoundAndPermission:
+        text = 'RC-S380は有効です';
+        break;
+    }
+
+    state = state.copyWith(
+      status: status,
+      isEnabled: isEnabled,
+      text: text,
+    );
+  }
 }

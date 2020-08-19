@@ -10,40 +10,44 @@ import 'package:two_touch_mobile/widget/widget.dart';
 class TimeCardScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
-    final rcs380 = useProvider(rcs380Provider);
+    final nfcAggregator = useProvider(nfcAggregatorProvider);
     final userRepository = useProvider(userRepositoryProvider);
 
-    return _TimeCardScreenView(rcs380: rcs380, userRepository: userRepository);
+    return _TimeCardScreenView(
+      nfcAggregator,
+      userRepository,
+    );
   }
 }
 
 class _TimeCardScreenView extends StatefulWidget {
-  final Rcs380 rcs380;
+  final NfcAggregator nfcAggregator;
   final UserRepository userRepository;
 
-  _TimeCardScreenView({this.rcs380, this.userRepository});
+  _TimeCardScreenView(this.nfcAggregator, this.userRepository);
 
   @override
   _TimeCardScreenStateView createState() =>
-      _TimeCardScreenStateView(this.rcs380, this.userRepository);
+      _TimeCardScreenStateView(this.nfcAggregator, this.userRepository);
 }
 
 class _TimeCardScreenStateView extends State<_TimeCardScreenView>
     with RouteAware {
-  final Rcs380 rcs380;
-  final UserRepository userRepository;
+  NfcAggregator nfcAggregator;
 
-  _TimeCardScreenStateView(this.rcs380, this.userRepository);
+  UserRepository userRepository;
+
+  _TimeCardScreenStateView(this.nfcAggregator, this.userRepository);
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     routeObserver.subscribe(this, ModalRoute.of(context));
-    WidgetsBinding.instance.addPostFrameCallback((_) => _listenRcs380());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _listen());
   }
 
-  void _listenRcs380() {
-    rcs380.card.listen((card) async {
+  void _listen() {
+    nfcAggregator.tag.listen((card) async {
       final user = await userRepository.findByCard(card);
 
       if (user == null) {
@@ -55,17 +59,17 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
     });
   }
 
-  void didPopNext() => rcs380
-    ..connect()
-    ..getStatus();
+  void didPopNext() => nfcAggregator
+    ..listen()
+    ..getAvailable();
 
-  void didPush() => rcs380
-    ..connect()
-    ..getStatus();
+  void didPush() => nfcAggregator
+    ..listen()
+    ..getAvailable();
 
-  void didPop() => rcs380..disconnect();
+  void didPop() => nfcAggregator..stop();
 
-  void didPushNext() => rcs380..disconnect();
+  void didPushNext() => nfcAggregator..stop();
 
   @override
   Widget build(BuildContext context) {
@@ -95,20 +99,23 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
                   dateFontSize: resize.textSize2,
                 ),
                 StreamBuilder(
-                  stream: rcs380.status,
+                  stream: nfcAggregator.isAvailable,
                   builder: (
                     BuildContext context,
-                    AsyncSnapshot<Rcs380Status> snapshot,
+                    AsyncSnapshot<bool> snapshot,
                   ) {
-                    if (!snapshot.hasData ||
-                        snapshot.data != Rcs380Status.FoundAndPermission) {
+                    if (!snapshot.hasData) {
+                      return Container();
+                    }
+
+                    if (!snapshot.data) {
                       return Container();
                     }
 
                     return Padding(
                       padding: EdgeInsets.fromLTRB(0, 16, 0, 32),
                       child: Text(
-                        '社員証をリーダーにタッチしてください',
+                        '社員証をタッチしてください',
                         style: TextStyle(
                           fontSize: resize.textSize2,
                         ),

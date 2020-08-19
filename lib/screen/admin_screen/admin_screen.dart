@@ -9,23 +9,21 @@ class AdminScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('管理'),
       ),
-      body: SafeArea(
-        child: ListView(
-          children: [
-            _headerItem(context, '設定'),
-            _menuItem('サーバー設定',
-                () => Navigator.of(context).pushNamed('/admin/server')),
-            _menuItem('デバイス設定',
-                () => Navigator.of(context).pushNamed('/admin/rcs380')),
-            _divider(),
-            _headerItem(context, '管理'),
-            _menuItem('ユーザ一覧',
-                () => Navigator.of(context).pushNamed('/admin/user_list')),
-            _divider(),
-            _headerItem(context, '情報'),
-            _aboutItem()
-          ],
-        ),
+      body: ListView(
+        children: [
+          _headerItem(context, '設定'),
+          _menuItem(
+              'サーバー設定', () => Navigator.of(context).pushNamed('/admin/server')),
+          _menuItem(
+              'デバイス設定', () => Navigator.of(context).pushNamed('/admin/device')),
+          _divider(),
+          _headerItem(context, '管理'),
+          _menuItem('ユーザ一覧',
+              () => Navigator.of(context).pushNamed('/admin/user_list')),
+          _divider(),
+          _headerItem(context, '情報'),
+          _aboutItem()
+        ],
       ),
     );
   }

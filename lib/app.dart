@@ -42,7 +42,7 @@ class App extends StatelessWidget {
         },
         '/admin': (BuildContext context) => AdminScreen(),
         '/admin/server': (BuildContext context) => ServerSettingScreen(),
-        '/admin/rcs380': (BuildContext context) => Rcs380SettingScreen(),
+        '/admin/device': (BuildContext context) => DeviceSettingScreen(),
         '/admin/user_list': (BuildContext context) => UserListScreen(),
       },
     );
