@@ -6,13 +6,7 @@ String _toFormat(List<int> buffer) {
   String id = '';
 
   for (final byte in buffer) {
-    final temp = byte.toRadixString(16).toUpperCase();
-
-    if (temp.length == 1) {
-      id += '0' + temp;
-    } else {
-      id += temp;
-    }
+    id += byte.toRadixString(16).padLeft(2, '0').toUpperCase();
   }
 
   return id;
