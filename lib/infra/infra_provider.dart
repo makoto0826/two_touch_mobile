@@ -15,7 +15,7 @@ final nfcAggregatorProvider = Provider.autoDispose((ref) {
   final nfcManager = ref.read(nfcManagerProvider);
   final aggregator = NfcAggregator(rcs380, nfcManager);
 
-  ref.onDispose(() => aggregator.stop());
+  ref.onDispose(() => aggregator.dispose());
 
   return aggregator;
 });

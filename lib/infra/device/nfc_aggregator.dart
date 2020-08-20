@@ -2,6 +2,24 @@ import 'dart:async';
 import 'package:nfc_manager/nfc_manager.dart';
 import './rcs380.dart';
 
+String _toFormat(List<int> buffer) {
+  String id = '';
+
+  for (final byte in buffer) {
+    final temp = byte.toRadixString(16).toUpperCase();
+
+    if (temp.length == 1) {
+      id += '0' + temp;
+    } else {
+      id += temp;
+    }
+  }
+
+  return id;
+}
+
+final _noop = Future.value();
+
 class NfcAggregator {
   Rcs380 _rcs380;
 
@@ -17,44 +35,48 @@ class NfcAggregator {
 
   bool _listening = false;
 
+  bool _running = false;
+
   NfcAggregator(Rcs380 rcs380, NfcManager nfcManager) {
     _rcs380 = rcs380;
     _nfcManager = nfcManager;
   }
 
   void listen() async {
+    if (_listening) {
+      return;
+    }
+
+    _listening = true;
+
     final isAvailable = await _nfcManager.isAvailable();
 
     if (isAvailable) {
       _nfcManager.startTagSession(onDiscovered: (NfcTag tag) {
-        if (_listening) {
-          return Future.value();
+        if (_running) {
+          return _noop;
         }
 
-        _listening = true;
+        _running = true;
 
         final buffer = tag.data['id'] as List<int>;
-        String id = '';
-
-        for(final byte in buffer) {
-          id += byte.toRadixString(16).toUpperCase();
-        }
-
+        final id = _toFormat(buffer);
         _tagController.sink.add(id);
-        _listening = false;
 
-        return Future.value();
+        _running = false;
+
+        return _noop;
       });
     }
 
     _rcs380.tag.listen((id) {
-      if (_listening) {
+      if (_running) {
         return;
       }
 
-      _listening = true;
+      _running = true;
       _tagController.sink.add(id);
-      _listening = false;
+      _running = false;
     });
   }
 
@@ -73,8 +95,14 @@ class NfcAggregator {
   }
 
   void stop() {
+    if (!_listening) {
+      return;
+    }
+
     _nfcManager.stopSession();
     _rcs380.disconnect();
+
+    _listening = false;
   }
 
   void dispose() {
