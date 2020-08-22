@@ -72,6 +72,12 @@ class _TimeCardScreenStateView extends State<_TimeCardScreenView>
   void didPushNext() => nfcAggregator..stop();
 
   @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final resize = Resize.of(context);
 
